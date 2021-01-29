@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="UTF-8">
@@ -7,13 +6,13 @@
 		<link rel="stylesheet" href="styles.css">
 		<script src="https://code.jquery.com/jquery-2.x-git.js"></script>
 		<script src="wasm_exec.js"></script>
-        <script>
-            const go = new Go();
-            WebAssembly.instantiateStreaming(fetch("toml.wasm"), go.importObject).then((result) => {
-                go.run(result.instance);
-            });
-        </script>
-		<title>toml v1.0.0-rc3</title>
+		<script>
+			const go = new Go();
+WebAssembly.instantiateStreaming(fetch("toml.wasm"), go.importObject).then((result) => {
+	go.run(result.instance);
+});
+		</script>
+		<title>toml v1.0.0</title>
 	</head>
 	<body>
 		<header>
@@ -23,15 +22,20 @@
 
 		<div class="container">
 			<section class="intro">
-				<h1>toml v1.0.0-rc3</h1>
+				<h1>TOML v1.0.0</h1>
 				<p>A toml parser and JSON transformer written in go</p>
-				<p>This parser is work in progress, please send me any parsing issues you find.</p>
-				<p>Thanks for your help</p>
-				<p>commit b403f2bd80c93630bd03baba840b294c03fc3c02</p>
+				<p>To the <a href="https://github.com/komkom/toml">source</a></p>
 			</section>
+			<div>
+				<button class="button" type="button" onclick="format()">To JSON</button>
+				<button class="button" type="button" onclick="clear2()">clear</button>
+			</div>
+			<div class="error-box" id="errormsg"></div>
 			<section class="example">
 				<div class="code-mess">
 					<span>Drop your toml here:</span>
+
+
 					<textarea id="toml" rows="8" cols="80">
 # Example from toml.io
 # This is a TOML document
@@ -57,18 +61,16 @@ role = "frontend"
 [servers.beta]
 ip = "10.0.0.2"
 role = "backend"
-					</textarea>
-					<div id="format-button" onclick="format()">transform</div>
+					</textarea>	
 				</div>
 				<div class="code-neat" >
 					<span>Get your formatted json here:</span>
 					<pre id="json"></pre>
 				</div>
 			</section>
+			<div>v.0.0.1</p>
+			</div>
 
-			<div class="error-box" id="errormsg"></div>
-		</div>
-
-		<script async defer src="https://buttons.github.io/buttons.js"></script>
+			<script async defer src="https://buttons.github.io/buttons.js"></script>
 	</body>
 </html>

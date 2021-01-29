@@ -15,7 +15,6 @@ import (
 var Document = js.Global().Get("document")
 
 const (
-	Fmt      = `div#format-button`
 	Clear    = `input#clear`
 	TOMLArea = `toml`
 	JSONArea = `json`
@@ -24,12 +23,17 @@ const (
 
 func main() {
 
-	js.Global().Set(`format`, js.FuncOf(func(this js.Value, args []js.Value) interface{} {
-		load()
+	js.Global().Set(`clear2`, js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+		fmt.Printf("clear\n")
+		clear()
 		return nil
 	}))
 
-	fmt.Printf("xxxxxx33\n")
+	js.Global().Set(`format`, js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+		fmt.Printf("format2\n")
+		load()
+		return nil
+	}))
 
 	<-make(chan struct{})
 }
@@ -51,6 +55,12 @@ func load() {
 	Document.Call("getElementById", JSONArea).Set(`innerHTML`, j)
 }
 
+func clear() {
+	Document.Call("getElementById", ErrorMsg).Set(`innerHTML`, ``)
+	Document.Call("getElementById", JSONArea).Set(`innerHTML`, ``)
+	Document.Call("getElementById", TOMLArea).Set(`innerHTML`, ``)
+}
+
 func transform() (string, error) {
 
 	var edit string
@@ -63,12 +73,9 @@ func transform() (string, error) {
 	rd := toml.New(r)
 	data, err := ioutil.ReadAll(rd)
 
-	fmt.Printf("____u %v\n", err)
 	if err != nil {
 		return ``, err
 	}
-
-	fmt.Printf("____u %s\n", data)
 
 	if !json.Valid(data) {
 		return ``, fmt.Errorf(`generated josn not valid`)
